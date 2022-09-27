@@ -10,7 +10,7 @@ After getting flutter set up, clone the project. The project won't run yet. Use 
 
 Next you need to select a simulator for the project to run on. Click on the simulator spot at the bottom of VS Code.
 
-![VS Code Screenshot](/you_choose/assets/images/simulator_instructions.png)
+![VS Code Screenshot](/icons/simulator_instructions.png)
 
 I use both the iOS Simulator and the Android Pixel Simulator. It is probably good to be able to run both, but start with getting one to work. It is also possible to use your personal device, but it can be tricky. If you need any help, send a slack.
 
