@@ -16,6 +16,10 @@ I use both the iOS Simulator and the Android Pixel Simulator. It is probably goo
 
 To run the project, use `flutter run`.
 
+# For PC Users
+
+If you are a PC user you will not be able to install xcode and build in IOS without installing a Virtual Machine or using a CI/CD tool such as Code Magic. However a virtual machine is far less efficient than a real machine, and you will have to pay for a service like Code Magic. I would recommend testing your code with the Android and Chrome Browser Simulators. If you need to test your code with IOS you can push your code, and a Mac user can then run your code on a IOS Simulator.
+
 
 ## Working on the App
 
