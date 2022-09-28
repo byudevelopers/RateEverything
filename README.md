@@ -17,7 +17,7 @@ git clone https://github.com/byudevelopers/RateEverything.git
     1. In a terminal, go to where flutter is installed.
     2. Now `cd` into flutter and `cd` into bin.
     3. Run `pwd`. Copy the output; it should look something like `/Users/me/Applications/flutter/bin`. As long as the ending has `/flutter/bin` you are good to go.
-    4. In your terminal type `vim ~/.` and hit tab. You should see many files come up. Look for `.bash_profile`, `.zshrc` or `.zprofile` and vim that file. Add `export PATH="{PUT_COPIED_OUTPUT_HERE}:${PATH}"`
+    4. In your terminal type `vim ~/.` and hit tab. You should see many files come up. Look for `.bash_profile`, `.zshrc` or `.zprofile` and vim that file. Add `export PATH="PUT_COPIED_OUTPUT_HERE:${PATH}"`
     5. Close your terminal, open it, and run `flutter`. You should now see output.
 
 The project won't run yet. Use `flutter doctor` to see what you need to fix (i.e., it will show that more extensions need to be downloaded). Keep running `flutter doctor` and fixing the problems until it works. This command will help you get everything set up (you will need all of the xcode tools and some other things).
