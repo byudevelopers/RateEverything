@@ -4,9 +4,23 @@ An app for rating everything!
 
 # Set Up
 
-First, you will need to set up flutter on your machine. [This website](https://www.projekt202.com/blog/2020/vscode-for-flutter) is a good resource. We are making this project in VSCode, so you will need that installed as well.
+1. Download and install [VSCode](https://code.visualstudio.com/download)
 
-After getting flutter set up, clone the project. The project won't run yet. Use the `flutter doctor` to see what you need to fix. Keep running `flutter doctor` and fixing the problems until it works. This command will help you get everything set up (you will need all of the xcode tools and some other things).
+2. Clone this repo with the following:
+```
+git clone https://github.com/byudevelopers/RateEverything.git
+```
+
+3. Setup flutter on your machine. [This website](https://www.projekt202.com/blog/2020/vscode-for-flutter) is a good resource to review.
+
+4. Everything will be easier if flutter is installed in your path. If you are not familiar with adding variables to your path, then follow these instructions:
+    1. In a terminal, go to where flutter is installed.
+    2. Now `cd` into flutter and `cd` into bin.
+    3. Run `pwd`. Copy the output; it should look something like `/Users/me/Applications/flutter/bin`. As long as the ending has `/flutter/bin` you are good to go.
+    4. In your terminal type `vim ~/.` and hit tab. You should see many files come up. Look for `.bash_profile`, `.zshrc` or `.zprofile` and vim that file. Add `export PATH="{PUT_COPIED_OUTPUT_HERE}"`
+    5. Close your terminal, open it, and run `flutter`. You should now see output.
+
+The project won't run yet. Use `flutter doctor` to see what you need to fix (i.e., it will show that more extensions need to be downloaded). Keep running `flutter doctor` and fixing the problems until it works. This command will help you get everything set up (you will need all of the xcode tools and some other things).
 
 Next you need to select a simulator for the project to run on. Click on the simulator spot at the bottom of VS Code.
 
