@@ -13,6 +13,12 @@ git clone https://github.com/byudevelopers/RateEverything.git
 
 3. Setup flutter on your machine. [This website](https://www.projekt202.com/blog/2020/vscode-for-flutter) is a good resource to review.
 
+Alternatively, if you use Mac and have Brew set up run the following command from the terminal.
+```
+brew install --cask flutter
+```
+It should automatically be added to your path, you can test this by running flutter --version from the terminal.
+
 4. Everything will be easier if flutter is installed in your path. If you are not familiar with adding variables to your path, then follow these instructions:
     1. In a terminal, go to where flutter is installed.
     2. Now `cd` into flutter and `cd` into bin.
