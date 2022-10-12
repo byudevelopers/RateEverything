@@ -38,13 +38,13 @@ class _TabViewState extends State<TabView> {
           ],
           children: [
             Container(
-              // width: double.infinity,
-              // height: double.infinity,
-              // color: Colors.amber,
-              child: Text('Child 1'),
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.lightBlue,
+              child: Center(child: Text('Child 1')),
             ),
             Container(
-              child: Text('Child 2'),
+              child: Text('Hot Takes'),
             ),
             Container(
               child: Text('Child 3'),
