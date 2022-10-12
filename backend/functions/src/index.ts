@@ -1,1 +1,1 @@
-export * from "./sample/sampleFunctions";
+export * from "./routes/sample/sampleFunctions";
