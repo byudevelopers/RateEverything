@@ -1,3 +1,6 @@
+import 'package:app22_23/screens/leaderboard/leaderboard.dart';
+import 'package:app22_23/screens/profile/profile.dart';
+import 'package:app22_23/screens/rating/rating.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
 
@@ -41,18 +44,13 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: Text('Child 1'),
+              child: Leaderboard(),
             ),
             Container(
-              child: Text('Child 2'),
+              child: Rating(),
             ),
             Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/profileSettings');
-                },
-                child: const Text('Profile Settings'),
-              ),
+              child: Profile(),
             ),
           ],
         ),
