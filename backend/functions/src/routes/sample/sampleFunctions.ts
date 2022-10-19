@@ -1,5 +1,4 @@
 import { https, logger } from "firebase-functions";
-
 import express from "express";
 
 // Start writing Firebase Functions
