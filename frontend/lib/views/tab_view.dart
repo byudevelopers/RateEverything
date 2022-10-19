@@ -47,7 +47,12 @@ class _TabViewState extends State<TabView> {
               child: Text('Child 2'),
             ),
             Container(
-              child: Text('Child 3'),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/profileSettings');
+                },
+                child: const Text('Profile Settings'),
+              ),
             ),
           ],
         ),
