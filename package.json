@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "backend": "cd backend && npm run start && cd ..",
+    "frontend": "cd frontend && flutter run && cd ..",
+    "all": "npm run frontend && npm run backend"
+  }
+}
