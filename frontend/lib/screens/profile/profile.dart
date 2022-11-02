@@ -1,7 +1,8 @@
-import 'package:app22_23/styles/button_styles.dart';
-import 'package:app22_23/views/profile_settings_view.dart';
+import 'package:app22_23/screens/profile/widget/profile_widget.dart';
+import 'package:app22_23/screens/profile/profile_settings_view.dart';
+import 'package:app22_23/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:tab_container/tab_container.dart';
+import '../../model/user.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -13,72 +14,63 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    const user = UserPreferences.myUser;
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 250, top: 10),
-              child: TextButton(
-                style: ButtonStyles.settingsButton(context),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfileSettingsView()),
-                  );
-                },
-                child: const Icon(
-                  Icons.settings,
-                  color: Colors.grey,
-                  size: 30.0,
-                ),
-              ),
+            ProfileWidget(
+              imagePath: user.imagePath,
+              onClicked: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => ProfileSettingsView()),
+                );
+              },
             ),
-            const ProfilePicture(),
-            const Text("My username"), //get the users username
-            const Text("My name"), //get the users name
-
-            // SafeArea(
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(bottom: 200),
-            //     child: TabContainer(
-            //       tabs: const ["Posts", "Coments"],
-            //       children: [
-            //         Container(
-            //           child: Text("text"),
-            //         ),
-            //         Container(
-            //           child: Text("text2"),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            buildName(user),
+            const SizedBox(height: 34),
+            buildAbout(user),
           ],
         ),
       ),
     );
   }
-}
 
-class ProfilePicture extends StatelessWidget {
-  const ProfilePicture({Key? key}) : super(key: key);
+  Widget buildName(User user) => Column(
+        children: [
+          Text(
+            user.name,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
+          ),
+          Text(
+            '@${user.username}',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+              color: Colors.grey,
+            ),
+          )
+        ],
+      );
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 125,
-      height: 125,
-      margin: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: NetworkImage('https://www.w3schools.com/howto/img_avatar.png'),
+  Widget buildAbout(User user) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 48),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'About',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              user.about,
+              style: const TextStyle(fontSize: 16, height: 1.4),
+            ),
+          ],
         ),
-      ),
-    );
-  }
+      );
 }
