@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app22_23/views/show_more_button.dart';
 
 class Leaderboard extends StatefulWidget {
   Leaderboard({Key? key}) : super(key: key);
@@ -10,8 +11,11 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Text("Leaderboard"),
-    );
+    return Column(
+        children: <Widget>[ 
+          const Text("Leaderboard"),
+          ShowMoreButton(),
+          ],
+      );
   }
 }

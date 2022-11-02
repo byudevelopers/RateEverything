@@ -45,10 +45,10 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: Leaderboard(),
+              child: Rating(),
             ),
             Container(
-              child: Rating(),
+              child: Leaderboard(),
             ),
             Container(
               child: Profile(),
