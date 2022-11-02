@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
+import 'package:app22_23/widgets/rate_widget.dart';
 
 class TabView extends StatefulWidget {
   const TabView({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _TabViewState extends State<TabView> {
               child: Text('Child 1'),
             ),
             Container(
-              child: Text('Child 2'),
+              child: RatingBox(),
             ),
             Container(
               child: Text('Child 3'),
