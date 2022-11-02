@@ -18,6 +18,12 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: const <Widget>[
             ProfilePicture(),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter a search term',
+              ),
+            )
           ],
         ),
       ),
