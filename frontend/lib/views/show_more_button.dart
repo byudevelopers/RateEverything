@@ -8,18 +8,27 @@ class ShowMoreButton extends StatefulWidget {
 }
 
 class _LeaderboardState extends State<ShowMoreButton> {
-  int count = 5;
+  int count = 0;
   
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      // style: ButtonStyle(),
-      child: Text(
-        'Show More ($count)',
-        style: TextStyle(fontSize: 25),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.blue),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          )
+        )
       ),
-      onPressed: () { 
-        count += 5;
+      child: Text(
+        'Show More (${count})',
+        style: TextStyle(fontSize: 25, color: Color.fromARGB(255, 255, 0, 0)),
+      ),
+      onPressed: () {
+        setState(() {
+          count += 1;
+        });
       },
         
       );
