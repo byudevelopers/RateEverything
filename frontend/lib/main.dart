@@ -1,6 +1,6 @@
 import 'package:app22_23/themes.dart';
 import 'package:app22_23/utils/user_preferences.dart';
-import 'package:app22_23/views/tab_view.dart';
+import 'package:app22_23/screens/tab_view.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 
