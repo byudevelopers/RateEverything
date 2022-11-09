@@ -4,7 +4,7 @@ import { firestoreDB } from "../../database/firestore";
 
 // Make get request to /topics to get todays current topic
 
-export const getTopic = https.onRequest(async (_, response) => {
+export const getTopic = https.onRequest(async (request, response) => {
   // Get the topic for today from the firstore db
   // Check if the topic for today exists
   // If it does, return the topic
