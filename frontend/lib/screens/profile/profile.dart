@@ -28,6 +28,7 @@ class _ProfileState extends State<Profile> {
                   MaterialPageRoute(
                       builder: (context) => ProfileSettingsView()),
                 );
+                setState(() {});
               },
             ),
             buildName(user),

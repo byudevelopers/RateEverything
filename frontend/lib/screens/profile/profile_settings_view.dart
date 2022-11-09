@@ -17,7 +17,7 @@ class ProfileSettingsView extends StatefulWidget {
 }
 
 class _ProfileSettingsViewState extends State<ProfileSettingsView> {
-  User user = UserPreferences.myUser;
+  User user = UserPreferences.getUser();
 
   @override
   Widget build(BuildContext context) => ThemeSwitchingArea(
