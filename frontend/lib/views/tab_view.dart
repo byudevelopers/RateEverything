@@ -50,7 +50,6 @@ class _TabViewState extends State<TabView> {
             ),
             Container(
               child: Leaderboard(),
-              child: RatingBox(),
             ),
             Container(
               child: Profile(),

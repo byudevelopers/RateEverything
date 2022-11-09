@@ -14,7 +14,7 @@ class _LeaderboardState extends State<ShowMoreButton> {
   Widget build(BuildContext context) {
     return TextButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.blue),
+        backgroundColor: MaterialStateProperty.all(Colors.yellow),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
@@ -22,8 +22,8 @@ class _LeaderboardState extends State<ShowMoreButton> {
         )
       ),
       child: Text(
-        'Show More (${count})',
-        style: TextStyle(fontSize: 25, color: Color.fromARGB(255, 255, 0, 0)),
+        'Show More ($count)',
+        style: const TextStyle(color: Colors.black),
       ),
       onPressed: () {
         setState(() {

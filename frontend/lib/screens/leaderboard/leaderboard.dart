@@ -1,3 +1,4 @@
+import 'package:app22_23/widgets/rate_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app22_23/views/show_more_button.dart';
 
@@ -14,6 +15,7 @@ class _LeaderboardState extends State<Leaderboard> {
     return Column(
         children: <Widget>[ 
           const Text("Leaderboard"),
+          RatingBox(),
           ShowMoreButton(),
           ],
       );
