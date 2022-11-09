@@ -1,9 +1,9 @@
 import 'package:app22_23/screens/leaderboard/leaderboard.dart';
 import 'package:app22_23/screens/profile/profile.dart';
-import 'package:app22_23/screens/rating/rating.dart';
+import 'package:app22_23/screens/feed/main_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
-import 'package:app22_23/widgets/rate_widget.dart';
+import 'package:app22_23/widgets/rating_box.dart';
 
 class TabView extends StatefulWidget {
   const TabView({Key? key}) : super(key: key);
@@ -45,10 +45,10 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: Leaderboard(),
+              child: MainFeed(),
             ),
             Container(
-              child: RatingBox(),
+              child: Leaderboard(),
             ),
             Container(
               child: Profile(),
