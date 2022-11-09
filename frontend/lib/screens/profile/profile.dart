@@ -14,7 +14,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    const user = UserPreferences.myUser;
+    final user = UserPreferences.getUser();
 
     return Scaffold(
       body: Center(
@@ -23,8 +23,8 @@ class _ProfileState extends State<Profile> {
           children: [
             ProfileWidget(
               imagePath: user.imagePath,
-              onClicked: () {
-                Navigator.of(context).push(
+              onClicked: () async {
+                await Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => ProfileSettingsView()),
                 );
