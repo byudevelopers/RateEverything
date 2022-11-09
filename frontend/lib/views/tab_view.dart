@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
 import 'package:app22_23/widgets/rate_widget.dart';
 
-
 class TabView extends StatefulWidget {
   const TabView({Key? key}) : super(key: key);
 
