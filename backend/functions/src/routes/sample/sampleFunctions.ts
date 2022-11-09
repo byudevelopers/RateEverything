@@ -1,5 +1,4 @@
 import { https, logger } from "firebase-functions";
-
 import { firestoreDB } from "../../database/firestore";
 
 // Start writing Firebase Functions
