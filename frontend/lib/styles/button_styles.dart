@@ -68,29 +68,5 @@ class ButtonStyles {
     );
   }
 
-  static ButtonStyle settingsButton(BuildContext context) {
-    return ButtonStyle(
-      textStyle: MaterialStateProperty.resolveWith<TextStyle>(
-          (Set<MaterialState> states) {
-        return TextStyle(
-          fontSize: 20,
-          color: Theme.of(context).buttonTheme.colorScheme!.tertiary,
-        );
-      }),
-      shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
-          (Set<MaterialState> states) {
-        return RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50.0));
-      }),
-      minimumSize:
-          MaterialStateProperty.resolveWith<Size>((Set<MaterialState> states) {
-        return const Size(50, 50);
-      }),
-      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-        (Set<MaterialState> states) {
-          return Colors.black;
-        },
-      ),
-    );
-  }
+
 }

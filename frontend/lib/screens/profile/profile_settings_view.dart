@@ -4,7 +4,10 @@ import 'package:app22_23/screens/profile/widget/button_widget.dart';
 import 'package:app22_23/screens/profile/widget/profile_widget.dart';
 import 'package:app22_23/screens/profile/widget/textfield_widget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import '../../model/user.dart';
 import '../../utils/user_preferences.dart';
 
@@ -38,7 +41,21 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
                     ProfileWidget(
                       imagePath: user.imagePath,
                       isEdit: true,
-                      onClicked: () {},
+                      onClicked: () async {
+                        final image = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+
+                        if (image == null) return;
+                        final directory =
+                            await getApplicationDocumentsDirectory();
+                        final name = basename(image.path);
+                        final imageFile = File('${directory.path}/$name');
+                        final newImage =
+                            await File(image.path).copy(imageFile.path);
+
+                        setState(
+                            () => user = user.copy(imagePath: newImage.path));
+                      },
                     ),
                     const SizedBox(height: 24),
                     TextFieldWidget(
