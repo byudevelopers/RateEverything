@@ -42,3 +42,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Block macos/Flutter
+macos/Flutter/ephemeral/Flutter-Generated.xcconfig

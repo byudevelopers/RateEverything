@@ -11,23 +11,23 @@ class RatingBox extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Container(
-          color: Colors.pink,
+          // color: Colors.pink,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                color: Colors.blue,
+                // color: Colors.blue,
                 height: 42,
                 child: GridView.custom(
                   gridDelegate: SliverQuiltedGridDelegate(
-                      crossAxisCount: 8,
-                      crossAxisSpacing: 4,
-                      mainAxisSpacing: 8,
+                      crossAxisCount: 12,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
                       repeatPattern: QuiltedGridRepeatPattern.same,
                       pattern: [
                         const QuiltedGridTile(1, 1),
                         const QuiltedGridTile(1, 1),
-                        const QuiltedGridTile(1, 5),
+                        const QuiltedGridTile(1, 9),
                         const QuiltedGridTile(1, 1),
                       ]),
                   physics: const NeverScrollableScrollPhysics(),
@@ -36,34 +36,50 @@ class RatingBox extends StatelessWidget {
                       switch (index) {
                         case 0:
                           {
-                            return const GridTile(child: Text("8"));
+                            return Center(child: const GridTile(
+                              child: Text("8",
+                                style: TextStyle(fontSize: 24, 
+                                fontWeight: FontWeight.w600),
+                              ))
+                            );
                           }
                         case 1:
                           {
-                            return Icon(
-                              Icons.woman,
-                              color: Colors.black,
-                              size: 24,
+                            return Center(
+                              child: Icon(
+                                Icons.insert_emoticon,
+                                color: Colors.black,
+                                size: 24,
+                              ),
                             );
                           }
                         case 2:
                           {
-                            return const GridTile(child: Text("Johnny22"));
+                            return Align(
+                              alignment: Alignment.centerLeft,
+                              child: const GridTile(child: Text("Johnny22",
+                                style: TextStyle(fontSize: 24),
+                              ))
+                            );
                           }
                         case 3:
                           {
-                            return Icon(
-                              Icons.woman,
-                              color: Colors.black,
-                              size: 24,
+                            return Center(
+                              child: Icon(
+                                Icons.chevron_right,
+                                color: Colors.black,
+                                size: 24,
+                              ),
                             );
                           }
                         case 4:
                           {
-                            return Icon(
-                              Icons.arrow_forward,
-                              color: Colors.black,
-                              size: 24,
+                            return Center(
+                              child: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.black,
+                                size: 24,
+                              ),
                             );
                           }
                         default:
@@ -76,8 +92,11 @@ class RatingBox extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
-                  "This is my extremely controversial rating that makes people very upset"),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: Text(
+                    "This is my extremely controversial rating that makes people very upset"),
+              ),
             ],
           ),
         ),
