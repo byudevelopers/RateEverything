@@ -9,7 +9,7 @@ const helloWorld = https.onRequest((request, response) => {
   response.send("Hello from Firebase!");
 });
 
-const sampleDB = https.onRequest(async (request, response) => {
+const sampleDB = https.onRequest(async (_, response) => {
   const data = {
     name: "Los Angeles",
     state: "CA",
