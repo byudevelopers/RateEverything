@@ -1,10 +1,12 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app22_23/themes.dart';
+import 'package:app22_23/utils/user_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 AppBar buildAppBar(BuildContext context) {
-  final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+  final user = UserPreferences.getUser();
+  final isDarkMode = user.isDarkMode;
   const darkModeIcon = CupertinoIcons.moon_stars;
 
   return AppBar(
@@ -29,6 +31,9 @@ AppBar buildAppBar(BuildContext context) {
 
             final switcher = ThemeSwitcher.of(context);
             switcher.changeTheme(theme: theme);
+
+            final newUser = user.copy(isDarkMode: !isDarkMode);
+            UserPreferences.setUser(newUser);
           },
         ),
       ),
