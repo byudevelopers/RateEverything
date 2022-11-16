@@ -2,7 +2,7 @@ import { https, logger } from "firebase-functions";
 import { firestoreDB } from "../../database/firestore";
 import { User } from "./models";
 
-// This is the endpoint to get a user by userId
+// This is and endpoint example to get a user by userId
 // http://localhost:5001/rateeverything/us-central1/getUser?userId=mNlE9QTzP1SOsl6XN0xh
 // Get user by id
 export const getUser = https.onRequest(async (request, response) => {
@@ -19,12 +19,14 @@ export const getUser = https.onRequest(async (request, response) => {
 
 // Post user
 export const postUser = https.onRequest(async (request, response) => {
-  let user = request.query.user as User;
-  logger.info("Posting user", { structuredData: true });
-  const res = await firestoreDB
-    .collection("users")
-    .doc(user.id as string)
-    .set(user);
+  const user: User = {
+    email: request.body.email,
+    username: request.body.username,
+    timestamp: Date.now(),
+  };
+  const userRef = firestoreDB.collection("users").doc();
+  const res = await userRef.set(user);
+  logger.info("Hello logs!", { structuredData: true });
   response.send(res);
 });
 
