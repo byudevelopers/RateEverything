@@ -1,4 +1,4 @@
-import 'package:app22_23/views/tab_view.dart';
+import 'package:app22_23/screens/tab_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
