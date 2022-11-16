@@ -2,10 +2,11 @@ import { https, logger } from "firebase-functions";
 import { firestoreDB } from "../../database/firestore";
 import { User } from "./models";
 
+// This is the endpoint to get a user by userId
+// http://localhost:5001/rateeverything/us-central1/getUser?userId=mNlE9QTzP1SOsl6XN0xh
 // Get user by id
 export const getUser = https.onRequest(async (request, response) => {
   const userId = request.query.userId;
-  console.log("userId", userId);
   const userRef = firestoreDB.collection("users").doc(userId as string);
   const userDoc = await userRef.get();
   if (!userDoc.exists) {
