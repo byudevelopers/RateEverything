@@ -19,7 +19,7 @@ export const getUser = https.onRequest(async (request, response) => {
 // Post user
 export const postUser = https.onRequest(async (request, response) => {
   let user = request.query.user as User;
-
+  logger.info("Posting user", { structuredData: true });
   const res = await firestoreDB
     .collection("users")
     .doc(user.id as string)
