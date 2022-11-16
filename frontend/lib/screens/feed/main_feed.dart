@@ -13,7 +13,8 @@ class MainFeed extends StatefulWidget {
 class _MainFeedState extends State<MainFeed> {
   final List<Rating> _ratingList = [
     Rating(8, "BobSanders53", "I really like it."),
-    Rating(-4, "BigShrek_420", "It is the worst thing ever."),
+    Rating(-4, "BigShrek_420", "It wasn't very good."),
+    Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
   ];
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,8 @@ class _MainFeedState extends State<MainFeed> {
                     ));
               },
               child: Container(
-                  margin: const EdgeInsets.all(20),
-                  child: const RatingBox()));
+                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: RatingBox(rating: _ratingList[index],)));
         },
       )
     );

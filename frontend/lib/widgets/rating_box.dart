@@ -1,8 +1,11 @@
+import 'package:app22_23/model/rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class RatingBox extends StatelessWidget {
-  const RatingBox({Key? key}) : super(key: key);
+  const RatingBox({Key? key, required this.rating}) : super(key: key);
+  final Rating rating;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -36,8 +39,8 @@ class RatingBox extends StatelessWidget {
                       switch (index) {
                         case 0:
                           {
-                            return Center(child: const GridTile(
-                              child: Text("8",
+                            return Center(child: GridTile(
+                              child: Text("${rating.value}",
                                 style: TextStyle(fontSize: 24, 
                                 fontWeight: FontWeight.w600),
                               ))
@@ -57,8 +60,8 @@ class RatingBox extends StatelessWidget {
                           {
                             return Align(
                               alignment: Alignment.centerLeft,
-                              child: const GridTile(child: Text("Johnny22",
-                                style: TextStyle(fontSize: 24),
+                              child: GridTile(child: Text(rating.username,
+                                style: const TextStyle(fontSize: 24),
                               ))
                             );
                           }
@@ -72,30 +75,19 @@ class RatingBox extends StatelessWidget {
                               ),
                             );
                           }
-                        case 4:
-                          {
-                            return Center(
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: Colors.black,
-                                size: 24,
-                              ),
-                            );
-                          }
                         default:
                           {
-                            return const GridTile(child: Text("Default"));
+                            return const GridTile(child: Text("Test"));
                           }
                       }
                     },
-                    childCount: 5,
+                    childCount: 4,
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: Text(
-                    "This is my extremely controversial rating that makes people very upset"),
+                child: SizedBox(width: double.infinity, child: Text(rating.comment, textAlign: TextAlign.left,)),
               ),
             ],
           ),
