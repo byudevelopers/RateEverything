@@ -15,6 +15,7 @@ class _MainFeedState extends State<MainFeed> {
     Rating(8, "BobSanders53", "I really like it."),
     Rating(-4, "BigShrek_420", "It wasn't very good."),
     Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
+    Rating(-9, "Elon_Musky10", "So musky."),
   ];
   @override
   Widget build(BuildContext context) {
