@@ -19,24 +19,40 @@ class _MainFeedState extends State<MainFeed> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ListView.builder(
-        itemCount: _ratingList.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DetailScreen(rating: _ratingList[index]),
-                    ));
-              },
-              child: Container(
-                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: RatingBox(rating: _ratingList[index],)));
-        },
-      )
+    return Material(
+      color: Colors.transparent,
+      child: Center(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(23.0, 32.0, 32.0, 8.0),
+                child: Text(
+                  "Do you like pineapple on pizza?", 
+                  style: TextStyle(fontSize: 36, color: Colors.black)
+                )
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: _ratingList.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailScreen(rating: _ratingList[index]),
+                            ));
+                      },
+                      child: Container(
+                          margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: RatingBox(
+                            rating: _ratingList[index],
+                          )));
+                },
+              ),
+            ],
+      )),
     );
   }
 }
