@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import '../../model/user.dart';
 import '../../utils/user_preferences.dart';
+import 'package:http/http.dart' as http;
 
 // Settings for the profile
 class ProfileSettingsView extends StatefulWidget {
