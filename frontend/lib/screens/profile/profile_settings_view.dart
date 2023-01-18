@@ -24,10 +24,13 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
   late User user;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
+    user = fetchData();
+  }
 
-    user = await UserPreferences.fetchUser();
+  fetchData() async {
+    return await UserPreferences.fetchUser();
   }
 
   @override
@@ -59,6 +62,17 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
                       },
                     ),
                     const SizedBox(height: 24),
+                    FutureBuilder(
+                      future: fetchData(),
+                      builder: ((context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data.toString());
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return const Text("Loading");
+                      }),
+                    ),
                     TextFieldWidget(
                         label: 'Full Name',
                         text: user.name,
