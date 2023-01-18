@@ -24,10 +24,10 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
   late User user;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
 
-    user = UserPreferences.getUser();
+    user = await UserPreferences.fetchUser();
   }
 
   @override
