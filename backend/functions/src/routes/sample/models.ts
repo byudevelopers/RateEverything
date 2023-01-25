@@ -11,22 +11,20 @@ export interface User {
 }
 
 export interface Rating {
-  id?: number;
-  timestamp?: number;
-  content?: string;
-  comments?: Comment[];
-  userId?: number;
-  userValue?: number;
-  peerValue?: number;
-  numPeers?: number;
+  timestamp: number;
+  content: string;
+  user?: string;
+  userRating: number;
+  peerRating: number;
+  numPeers: number;
 }
 
 export interface Comment {
-  id?: number;
-  timestamp?: number;
-  description?: string;
-  ratingId?: number;
-  userId?: number;
+  timestamp: number;
+  content: string;
+  user: number;
+  peerRating: number;
+  numPeers: number;
 }
 
 export interface Topic {
