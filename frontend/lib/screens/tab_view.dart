@@ -4,6 +4,9 @@ import 'package:app22_23/screens/feed/main_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
 import 'package:app22_23/widgets/rating_box.dart';
+import 'package:app22_23/model/rating.dart';
+import 'package:app22_23/model/feed.dart';
+import 'package:app22_23/model/topic.dart';
 
 class TabView extends StatefulWidget {
   const TabView({Key? key}) : super(key: key);
@@ -13,6 +16,11 @@ class TabView extends StatefulWidget {
 }
 
 class _TabViewState extends State<TabView> {
+  final Feed _feed = Feed([
+    Rating(8, "BobSanders53", "I really like it."),
+    Rating(-4, "BigShrek_420", "It wasn't very good."),
+    Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
+  ]);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,7 +53,7 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: MainFeed(),
+              child: MainFeed(feed: _feed),
             ),
             Container(
               child: Leaderboard(),
