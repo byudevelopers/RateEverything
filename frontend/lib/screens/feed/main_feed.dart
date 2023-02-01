@@ -17,6 +17,7 @@ class _MainFeedState extends State<MainFeed> {
     Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
     Rating(-9, "Elon_Musky10", "So musky."),
   ];
+  final String prompt = "Do you like pineapple on pizza?";
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -24,11 +25,11 @@ class _MainFeedState extends State<MainFeed> {
       child: Center(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(23.0, 32.0, 32.0, 8.0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(23.0, 32.0, 32.0, 8.0),
                 child: Text(
-                  "Do you like pineapple on pizza?", 
-                  style: TextStyle(fontSize: 36, color: Colors.black)
+                  prompt, 
+                  style: const TextStyle(fontSize: 36, color: Colors.black)
                 )
               ),
               ListView.builder(
@@ -41,7 +42,7 @@ class _MainFeedState extends State<MainFeed> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  DetailScreen(rating: _ratingList[index]),
+                                  DetailScreen(rating: _ratingList[index], prompt: prompt,),
                             ));
                       },
                       child: Container(
