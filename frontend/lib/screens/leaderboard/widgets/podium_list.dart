@@ -63,7 +63,7 @@ class _PodiumListState extends State<PodiumList> {
                         appBar: AppBar(
                           title: const Text("Feed Screen"),
                         ),
-                        body: MainFeed(feed: _topicList[position].feed)
+                        body: MainFeed(topic: _topicList[position])
                       )
                   ));
             });
