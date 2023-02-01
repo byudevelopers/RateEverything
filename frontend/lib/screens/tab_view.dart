@@ -3,7 +3,6 @@ import 'package:app22_23/screens/profile/profile.dart';
 import 'package:app22_23/screens/feed/main_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
-import 'package:app22_23/widgets/rating_box.dart';
 import 'package:app22_23/model/rating.dart';
 import 'package:app22_23/model/feed.dart';
 import 'package:app22_23/model/topic.dart';
@@ -21,6 +20,7 @@ class _TabViewState extends State<TabView> {
     Rating(-4, "BigShrek_420", "It wasn't very good."),
     Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
   ]);
+ late final Topic _topic = Topic("What is your favorite color?", 10, _feed);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +53,7 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: MainFeed(feed: _feed),
+              child: MainFeed(topic: _topic),
             ),
             Container(
               child: Leaderboard(),
