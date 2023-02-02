@@ -1,134 +1,169 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:app22_23/model/comments/i_comment_fetcher.dart';
 import 'package:app22_23/model/rating.dart';
 import 'package:app22_23/model/comments/comment.dart';
 import 'package:app22_23/utils/basics.dart';
 import 'package:app22_23/utils/future.dart';
-import 'package:flutter/src/material/colors.dart';
-import 'package:app22_23/utils/basics.dart';
+
 import 'package:flutter/material.dart';
 
-class CommentPanel extends StatefulWidget {
-  late int index;
-  late Future<Comment> comment;
-  CommentPanel({Key? key, required index, required this.comment})
+import '../../model/user.dart';
+
+/// Creates widget with User image and name
+///
+/// Put's image left, then user's name then @username
+class UserFrameWidget extends StatelessWidget {
+  final User user;
+  final Widget? child;
+
+  const UserFrameWidget({Key? key, required this.user, this.child})
       : super(key: key);
 
   @override
-  State<CommentPanel> createState() => _CommentPanelState(comment: comment);
+  Widget build(BuildContext context) {
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      // IMAGE
+      Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: buildImage(user.imagePath, 32, 32)),
+      // USERNAME
+      Expanded(
+          child: Column(children: [
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            //const SizedBox(width: 10),
+            Text(
+              user.name,
+              style: const TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 01),
+            ),
+            const SizedBox(width: 5),
+            Text(
+              '@${user.username}',
+              style: TextStyle(color: Colors.grey[800], fontSize: 12),
+            ),
+          ],
+        ),
+
+        //CHILD
+        child ?? const Text(""),
+      ]))
+    ]);
+  }
 }
 
-class _CommentPanelState extends State<CommentPanel> {
-  bool condense = false;
-  late Timer _timer;
+/// Widget that truncates long text unless tapped on
+///
+/// Accepts [text] and cuts it off with [cuttoff]
+class CondensedText extends StatefulWidget {
+  final String text;
 
-  Future<Comment> comment;
+  final int cutoff;
 
-  _CommentPanelState({required this.comment});
+  const CondensedText({Key? key, required this.text, this.cutoff = 200})
+      : super(key: key);
+
+  @override
+  State<CondensedText> createState() => _CondensedTextState();
+}
+
+/// State for CondensedText
+class _CondensedTextState extends State<CondensedText> {
+  /*static const weight = 20;*/
+  bool condensable = false;
+  late bool condensed;
+  late String conString;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (comment.isLoaded()) {
-        timer.cancel();
-        setState(() {
-          condense = comment.get()!.comment.length > 200;
-        });
-      } else if (comment.hasFailed()) {
-        timer.cancel();
-      } else {
-        timer.cancel();
-      }
-    });
+
+    condensable = widget.text.length > widget.cutoff;
+
+    condensed = condensable;
+    if (condensable) {
+      conString = '${widget.text.substring(0, widget.cutoff)}…';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (comment.isLoaded()) {
-      // return Column(children: [
-      //   Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: [
-      //         Padding(
-      //             padding:
-      //                 const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-      //             child: Column(children: [
-      //               buildImage(comment.get()!.user.imagePath, 48, 48)
-      //             ])),
-      //         Column(children: [
-      //           Row(
-      //               mainAxisAlignment: MainAxisAlignment.start,
-      //               crossAxisAlignment: CrossAxisAlignment.center,
-      //               children: [
-      //                 Text(comment.get()!.user.name,
-      //                     style: const TextStyle(fontSize: 20)),
-      //                 const SizedBox(width: 5),
-      //                 Text(
-      //                   comment.get()!.user.username,
-      //                   style: const TextStyle(
-      //                       fontSize: 15,
-      //                       color: Color.fromARGB(255, 24, 53, 67)),
-      //                 ),
-      //                 //Spacer(),
-      //               ]),
-      //           // Padding(
-      //           //   padding:
-      //           //       const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      //           //   child: Align(
-      //           //       alignment: Alignment.topLeft,
-      //           Text(comment.get()!.comment, textAlign: TextAlign.left),
-      //           //),
-      //         ])
-      //       ])
-      // ]);
+    return InkWell(
+        onTap: () {
+          setState(() {
+            condensed = !condensed && condensable;
+          });
+        },
+        child: Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 5, top: 5, right: 10, bottom: 10),
+                child: Text(condensed ? conString : widget.text))));
+  }
+}
 
-      return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: buildImage(comment.get()!.user.imagePath, 48, 48)),
-        Expanded(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    Text(
-                      comment.get()!.user.name,
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      comment.get()!.user.username,
-                      style: TextStyle(color: Colors.grey[800], fontSize: 12),
-                    ),
-                  ],
-                ),
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 10),
-                        child: Text(comment.get()!.comment)))
-              ]),
-        )
-      ]);
+/// Returns a Userframe with a condensedText widget in it
+///
+/// Accepts [comment] as a Future Comment along with its
+/// [index].
+class CommentPanel extends StatefulWidget {
+  final int index;
+  final Future<Comment> comment;
+  const CommentPanel({Key? key, required this.index, required this.comment})
+      : super(key: key);
+
+  @override
+  State<CommentPanel> createState() => _CommentPanelState();
+}
+
+/// Keeps
+///
+/// The widget uses a Timer incase the Future is
+/// not completed for which a loading widget is given.
+class _CommentPanelState extends State<CommentPanel> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), __timerRunnable);
+  }
+
+  void __timerRunnable(Timer timer) {
+    if (widget.comment.isLoaded()) {
+      timer.cancel();
+      setState(() {});
+    } else if (widget.comment.hasFailed()) {
+      timer.cancel();
+    } else {
+      timer.cancel();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.comment.isLoaded()) {
+      return UserFrameWidget(
+          user: widget.comment.get()!.user,
+          child: CondensedText(text: widget.comment.get()!.comment));
     } else {
       return const Center(child: Text("..."));
     }
   }
 }
-
-// class _LoadingCommentState extends State<CommentPanel> {
-//   late int index;
-
-//   _LoadingCommentState(index) : index = index {}
-
-//   }
-// }
 
 class DetailScreen extends StatelessWidget {
   final Rating rating;
@@ -147,7 +182,7 @@ class DetailScreen extends StatelessWidget {
         Text(rating.comment),
         Expanded(
           child: ListView.builder(
-              itemCount: 2 * fetcher.total,
+              itemCount: 10 * fetcher.total,
               itemBuilder: (BuildContext context, int index) {
                 return Column(children: [
                   CommentPanel(
