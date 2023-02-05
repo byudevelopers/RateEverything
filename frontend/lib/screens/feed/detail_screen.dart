@@ -1,21 +1,16 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:app22_23/model/comments/i_comment_fetcher.dart';
 import 'package:app22_23/model/rating.dart';
 import 'package:app22_23/model/comments/comment.dart';
 import 'package:app22_23/utils/basics.dart';
-import 'package:app22_23/utils/future.dart';
-
 import 'package:flutter/material.dart';
-
 import '../../model/user.dart';
 
 /// Creates widget with User image and name
 ///
 /// Put's image left, then user's name then @username
 class UserFrameWidget extends StatelessWidget {
-  final User user;
+  final User? user;
   final Widget? child;
 
   const UserFrameWidget({Key? key, required this.user, this.child})
@@ -26,8 +21,15 @@ class UserFrameWidget extends StatelessWidget {
     return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       // IMAGE
       Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: buildImage(user.imagePath, 32, 32)),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        child: user != null
+            ? buildImage(user!.imagePath, 32, 32)
+            : const SizedBox(
+                width: 32,
+                height: 32,
+              ),
+      ),
+
       // USERNAME
       Expanded(
           child: Column(children: [
@@ -36,13 +38,13 @@ class UserFrameWidget extends StatelessWidget {
           children: [
             //const SizedBox(width: 10),
             Text(
-              user.name,
+              user?.name ?? "        ",
               style: const TextStyle(
                   fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 01),
             ),
             const SizedBox(width: 5),
             Text(
-              '@${user.username}',
+              user == null ? '...' : '@${user?.username}',
               style: TextStyle(color: Colors.grey[800], fontSize: 12),
             ),
           ],
@@ -61,9 +63,11 @@ class UserFrameWidget extends StatelessWidget {
 class CondensedText extends StatefulWidget {
   final String text;
 
-  final int cutoff;
+  final int charCutoff;
+  final int nlCutoff;
 
-  const CondensedText({Key? key, required this.text, this.cutoff = 200})
+  const CondensedText(
+      {Key? key, required this.text, this.charCutoff = 200, this.nlCutoff = 4})
       : super(key: key);
 
   @override
@@ -74,35 +78,60 @@ class CondensedText extends StatefulWidget {
 class _CondensedTextState extends State<CondensedText> {
   /*static const weight = 20;*/
   bool condensable = false;
-  late bool condensed;
-  late String conString;
+  late bool condensed = true;
+  late String conString = "";
 
   @override
   void initState() {
     super.initState();
 
-    condensable = widget.text.length > widget.cutoff;
+    int lines = '\n'.allMatches(widget.text).length + 1;
 
-    condensed = condensable;
+    condensable =
+        widget.text.length > widget.charCutoff || lines > widget.nlCutoff;
+
     if (condensable) {
-      conString = '${widget.text.substring(0, widget.cutoff)}…';
+      int ind = 0;
+      for (int i = 0; i < widget.nlCutoff; i++) {
+        ind = widget.text
+            .indexOf('\n', ind + (ind == (widget.text.length - 1) ? 0 : 1));
+        if (ind == -1) {
+          break;
+        }
+      }
+
+      condensed = true;
+      if (condensable) {
+        if (ind == -1 || widget.charCutoff < ind) {
+          conString = '${widget.text.substring(0, widget.charCutoff)}…';
+        } else {
+          conString = '${widget.text.substring(0, ind)}…';
+        }
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: () {
-          setState(() {
-            condensed = !condensed && condensable;
-          });
-        },
-        child: Align(
+    return condensable
+        ? InkWell(
+            onTap: () {
+              setState(() {
+                condensed = !condensed && condensable;
+              });
+            },
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 5, top: 5, right: 10, bottom: 10),
+                    child: Text(condensed ? conString : widget.text))))
+        : Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: const EdgeInsets.only(
                     left: 5, top: 5, right: 10, bottom: 10),
-                child: Text(condensed ? conString : widget.text))));
+                child: Text(widget.text)));
   }
 }
 
@@ -125,42 +154,45 @@ class CommentPanel extends StatefulWidget {
 /// The widget uses a Timer incase the Future is
 /// not completed for which a loading widget is given.
 class _CommentPanelState extends State<CommentPanel> {
-  late Timer _timer;
+  bool loaded = false;
+  late Comment comment;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), __timerRunnable);
+    widget.comment
+        .then((value) => {comment = value})
+        .whenComplete(() => __loadRunnable());
   }
 
-  void __timerRunnable(Timer timer) {
-    if (widget.comment.isLoaded()) {
-      timer.cancel();
-      setState(() {});
-    } else if (widget.comment.hasFailed()) {
-      timer.cancel();
-    } else {
-      timer.cancel();
-    }
+  void __loadRunnable() {
+    setState(() {
+      loaded = true;
+      comment = comment;
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
-
-    if (_timer.isActive) {
-      _timer.cancel();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.comment.isLoaded()) {
+    if (loaded) {
       return UserFrameWidget(
-          user: widget.comment.get()!.user,
-          child: CondensedText(text: widget.comment.get()!.comment));
+          user: comment.user, child: CondensedText(text: comment.comment));
     } else {
-      return const Center(child: Text("..."));
+      return const Card(
+          child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 32),
+        child: Center(
+          child: Text(
+            "···",
+            style: TextStyle(fontSize: 40, letterSpacing: 20),
+          ),
+        ),
+      ));
     }
   }
 }
