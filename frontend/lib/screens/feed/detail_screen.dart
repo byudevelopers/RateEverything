@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:app22_23/model/comments/i_comment_fetcher.dart';
 import 'package:app22_23/model/rating.dart';
 import 'package:app22_23/model/comments/comment.dart';
@@ -11,9 +12,18 @@ import '../../model/user.dart';
 /// Put's image left, then user's name then @username
 class UserFrameWidget extends StatelessWidget {
   final User? user;
+  final TextStyle nameStyle;
+  final TextStyle usernameStyle;
   final Widget? child;
 
-  const UserFrameWidget({Key? key, required this.user, this.child})
+  const UserFrameWidget(
+      {Key? key,
+      required this.user,
+      this.child,
+      this.nameStyle = const TextStyle(
+          fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 01),
+      this.usernameStyle = const TextStyle(
+          color: Color.fromARGB(255, 100, 100, 100), fontSize: 12)})
       : super(key: key);
 
   @override
@@ -37,15 +47,11 @@ class UserFrameWidget extends StatelessWidget {
         Row(
           children: [
             //const SizedBox(width: 10),
-            Text(
-              user?.name ?? "        ",
-              style: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: 01),
-            ),
+            Text(user?.name ?? "        ", style: nameStyle),
             const SizedBox(width: 5),
             Text(
               user == null ? '...' : '@${user?.username}',
-              style: TextStyle(color: Colors.grey[800], fontSize: 12),
+              style: usernameStyle,
             ),
           ],
         ),
@@ -54,6 +60,119 @@ class UserFrameWidget extends StatelessWidget {
         child ?? const Text(""),
       ]))
     ]);
+  }
+}
+
+class TimeFormatter {
+  static const List<int> times = [
+    1000,
+    60000,
+    3600000,
+    86400000,
+    2592000000,
+    31536000000
+  ];
+
+  static const int f_seconds = 0x1;
+  static const int f_minutes = 0x2;
+  static const int f_hours = 0x4;
+  static const int f_days = 0x8;
+  static const int f_months = 0x10;
+  static const int f_years = 0x20;
+
+  static const int standard = f_minutes | f_hours | f_days;
+
+  final int flag;
+
+  final int seconds;
+  final int minutes;
+  final int hours;
+  final int days;
+  // ...
+
+  const TimeFormatter(
+      {this.flag = standard,
+      this.seconds = 60,
+      this.minutes = 60,
+      this.hours = 24,
+      this.days = 4});
+
+  bool isFlagged(int flag) {
+    return (this.flag & flag) == flag;
+  }
+
+  String format(DateTime time) {
+    final int diff =
+        DateTime.now().millisecondsSinceEpoch - time.millisecondsSinceEpoch;
+
+    if (isFlagged(f_seconds) && diff < times[0] * seconds) {
+      return '${diff ~/ times[0]} seconds ago';
+    } else if (isFlagged(f_minutes) && diff < times[1] * minutes) {
+      return '${diff ~/ times[1]} mins ago';
+    } else if (isFlagged(f_hours) && diff < times[2] * hours) {
+      return '${diff ~/ times[2]} hours ago';
+    } else if (isFlagged(f_days) && diff < times[3] * days) {
+      return '${diff ~/ times[3]} days ago';
+    }
+    return '${time.month.toString().padLeft(2, '0')}/${time.day.toString().padLeft(2, '0')}/${time.year.toString().substring(2)} at ${time.hour.toString().padLeft(2)}:${time.minute.toString().padLeft(2)}';
+  }
+
+  String formatMilli(int time) {
+    return format(DateTime.fromMillisecondsSinceEpoch(time));
+  }
+}
+
+class DateWrapper extends StatefulWidget {
+  final int time;
+  final Widget child;
+  final TextStyle style;
+  final TimeFormatter settings;
+
+  const DateWrapper(
+      {Key? key,
+      required this.time,
+      required this.child,
+      this.style = const TextStyle(),
+      this.settings = const TimeFormatter()})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _DateWrapperState();
+}
+
+class _DateWrapperState extends State<DateWrapper> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(minutes: 1), _update);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
+  }
+
+  void _update(Timer t) {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        widget.child,
+        Padding(
+            padding: const EdgeInsets.all(5),
+            child: Text(widget.settings.formatMilli(widget.time)))
+      ],
+    );
   }
 }
 
@@ -124,13 +243,13 @@ class _CondensedTextState extends State<CondensedText> {
                 alignment: Alignment.topLeft,
                 child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 5, top: 5, right: 10, bottom: 10),
+                        left: 5, top: 5, right: 10, bottom: 0),
                     child: Text(condensed ? conString : widget.text))))
         : Align(
             alignment: Alignment.topLeft,
             child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 5, top: 5, right: 10, bottom: 10),
+                    left: 5, top: 5, right: 10, bottom: 0),
                 child: Text(widget.text)));
   }
 }
@@ -162,14 +281,16 @@ class _CommentPanelState extends State<CommentPanel> {
     super.initState();
     widget.comment
         .then((value) => {comment = value})
-        .whenComplete(() => __loadRunnable());
+        .whenComplete(__loadRunnable);
   }
 
   void __loadRunnable() {
-    setState(() {
-      loaded = true;
-      comment = comment;
-    });
+    if (mounted) {
+      setState(() {
+        loaded = true;
+        comment = comment;
+      });
+    }
   }
 
   @override
@@ -180,8 +301,10 @@ class _CommentPanelState extends State<CommentPanel> {
   @override
   Widget build(BuildContext context) {
     if (loaded) {
-      return UserFrameWidget(
-          user: comment.user, child: CondensedText(text: comment.comment));
+      return DateWrapper(
+          time: comment.date,
+          child: UserFrameWidget(
+              user: comment.user, child: CondensedText(text: comment.comment)));
     } else {
       return const Card(
           child: Padding(
@@ -214,7 +337,7 @@ class DetailScreen extends StatelessWidget {
         Text(rating.comment),
         Expanded(
           child: ListView.builder(
-              itemCount: 10 * fetcher.total,
+              itemCount: 12 * fetcher.total,
               itemBuilder: (BuildContext context, int index) {
                 return Column(children: [
                   CommentPanel(
