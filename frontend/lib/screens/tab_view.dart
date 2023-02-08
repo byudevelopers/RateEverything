@@ -16,11 +16,13 @@ class TabView extends StatefulWidget {
 }
 
 class _TabViewState extends State<TabView> {
-  final Feed _feed = Feed([
-    Rating(8, "BobSanders53", "I really like it."),
-    Rating(-4, "BigShrek_420", "It wasn't very good."),
-    Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
-  ]);
+  final Topic _topic = Topic("Avatar: The Last Airbender", 4.67,
+    Feed([
+      Rating(8, "BobSanders53", "I really like it."),
+      Rating(-4, "BigShrek_420", "It wasn't very good."),
+      Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
+    ])
+  );
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +55,7 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: MainFeed(feed: _feed),
+              child: MainFeed(topic: _topic),
             ),
             Container(
               child: Leaderboard(),
