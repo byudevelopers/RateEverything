@@ -1,5 +1,6 @@
 import 'package:app22_23/model/rating.dart';
 import 'package:app22_23/widgets/rating_box.dart';
+import 'package:app22_23/widgets/rating_info.dart';
 import 'package:flutter/material.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class DetailScreen extends StatelessWidget {
         child: Column(children: [
           Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: RatingBox(
+            child: RatingInfo(
               rating: rating,
             )
           ),
