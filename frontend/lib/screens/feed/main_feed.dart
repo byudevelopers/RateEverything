@@ -3,6 +3,8 @@ import 'package:app22_23/widgets/rating_box.dart';
 import 'package:flutter/material.dart';
 import 'package:app22_23/screens/feed/detail_screen.dart';
 
+import 'package:app22_23/widgets/rating_list.dart';
+
 class MainFeed extends StatefulWidget {
   final Topic topic;
   const MainFeed({Key? key, required this.topic}) : super(key: key);
@@ -14,25 +16,23 @@ class MainFeed extends StatefulWidget {
 class _MainFeedState extends State<MainFeed> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: ListView.builder(
-      itemCount: widget.topic.feed.ratingList.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        DetailScreen(rating: widget.topic.feed.ratingList[index], prompt: widget.topic.question,),
-                  ));
-            },
-            child: Container(
-                margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: RatingBox(
-                  rating: widget.topic.feed.ratingList[index],
-                )));
-      },
-    ));
+    return Material(
+      color: Colors.transparent,
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Text(
+              widget.topic.question,
+              style: const TextStyle(
+                  fontSize: 40, color: Color.fromARGB(255, 93, 0, 255)),
+            ),
+          ),
+          Expanded(
+            child: RatingList(topic: widget.topic),
+          ),
+        ],
+      ),
+    );
   }
 }
