@@ -63,22 +63,22 @@ class UserFrameWidget extends StatelessWidget {
   }
 }
 
+/// This is a formatter that formats recent dates
+///
+/// The specific reason for this is to allow things
+/// posted minutes ago to just states that.
+///
+/// Use [flag] as bitflag to show what time periods
+/// are accounted for by this formatter.
 class TimeFormatter {
-  static const List<int> times = [
-    1000,
-    60000,
-    3600000,
-    86400000,
-    2592000000,
-    31536000000
-  ];
+  /// This is the period to milliseconds conversion
+  static const List<int> times = [1000, 60000, 3600000, 86400000];
 
   static const int f_seconds = 0x1;
   static const int f_minutes = 0x2;
   static const int f_hours = 0x4;
   static const int f_days = 0x8;
   static const int f_months = 0x10;
-  static const int f_years = 0x20;
 
   static const int standard = f_minutes | f_hours | f_days;
 
@@ -88,6 +88,7 @@ class TimeFormatter {
   final int minutes;
   final int hours;
   final int days;
+
   // ...
 
   const TimeFormatter(
@@ -106,7 +107,7 @@ class TimeFormatter {
         DateTime.now().millisecondsSinceEpoch - time.millisecondsSinceEpoch;
 
     if (isFlagged(f_seconds) && diff < times[0] * seconds) {
-      return '${diff ~/ times[0]} seconds ago';
+      return '${diff ~/ times[0]} secs ago';
     } else if (isFlagged(f_minutes) && diff < times[1] * minutes) {
       return '${diff ~/ times[1]} mins ago';
     } else if (isFlagged(f_hours) && diff < times[2] * hours) {
@@ -114,14 +115,36 @@ class TimeFormatter {
     } else if (isFlagged(f_days) && diff < times[3] * days) {
       return '${diff ~/ times[3]} days ago';
     }
+
     return '${time.month.toString().padLeft(2, '0')}/${time.day.toString().padLeft(2, '0')}/${time.year.toString().substring(2)} at ${time.hour.toString().padLeft(2)}:${time.minute.toString().padLeft(2)}';
   }
 
   String formatMilli(int time) {
     return format(DateTime.fromMillisecondsSinceEpoch(time));
   }
+
+  bool recent(DateTime time) {
+    return recentMilli(time.millisecondsSinceEpoch);
+  }
+
+  bool recentMilli(int milli) {
+    final int diff = DateTime.now().millisecondsSinceEpoch - milli;
+
+    if (isFlagged(f_days)) {
+      return diff < times[3] * days;
+    } else if (isFlagged(f_hours)) {
+      return diff < times[2] * hours;
+    } else if (isFlagged(f_minutes)) {
+      return diff < times[1] * minutes;
+    } else if (isFlagged(f_seconds)) {
+      return diff < times[0] * seconds;
+    }
+
+    return false;
+  }
 }
 
+/// Widget that puts a date at the bottom of a widget
 class DateWrapper extends StatefulWidget {
   final int time;
   final Widget child;
@@ -140,6 +163,7 @@ class DateWrapper extends StatefulWidget {
   State<StatefulWidget> createState() => _DateWrapperState();
 }
 
+/// State, return text with formatted date
 class _DateWrapperState extends State<DateWrapper> {
   late Timer _timer;
 
@@ -147,6 +171,10 @@ class _DateWrapperState extends State<DateWrapper> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(minutes: 1), _update);
+
+    if (widget.settings.recentMilli(widget.time)) {
+      _timer.cancel();
+    }
   }
 
   @override
@@ -165,12 +193,15 @@ class _DateWrapperState extends State<DateWrapper> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         widget.child,
         Padding(
-            padding: const EdgeInsets.all(5),
-            child: Text(widget.settings.formatMilli(widget.time)))
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Text(
+              widget.settings.formatMilli(widget.time),
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ))
       ],
     );
   }
@@ -268,10 +299,7 @@ class CommentPanel extends StatefulWidget {
   State<CommentPanel> createState() => _CommentPanelState();
 }
 
-/// Keeps
-///
-/// The widget uses a Timer incase the Future is
-/// not completed for which a loading widget is given.
+/// checks if loaded, returns comment widget
 class _CommentPanelState extends State<CommentPanel> {
   bool loaded = false;
   late Comment comment;
@@ -301,10 +329,10 @@ class _CommentPanelState extends State<CommentPanel> {
   @override
   Widget build(BuildContext context) {
     if (loaded) {
-      return DateWrapper(
-          time: comment.date,
-          child: UserFrameWidget(
-              user: comment.user, child: CondensedText(text: comment.comment)));
+      return UserFrameWidget(
+          user: comment.user,
+          child: DateWrapper(
+              time: comment.date, child: CondensedText(text: comment.comment)));
     } else {
       return const Card(
           child: Padding(
