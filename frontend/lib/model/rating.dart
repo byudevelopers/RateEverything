@@ -7,6 +7,6 @@ class Rating {
   late String comment;
 
   Rating(this.value, this.username, this.comment) {
-    icon = const Icon(Icons.woman);
+    icon = const Icon(Icons.edit_note);
   }
 }
