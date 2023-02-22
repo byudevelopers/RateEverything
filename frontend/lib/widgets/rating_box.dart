@@ -10,7 +10,7 @@ class RatingBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        color: Colors.amber,
+        color: Colors.blue,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Container(
