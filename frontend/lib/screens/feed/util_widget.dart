@@ -7,6 +7,8 @@ import '../../model/user.dart';
 /// Widget that truncates long text unless tapped on
 ///
 /// Accepts [text] and cuts it off with [cuttoff]
+/// or with [nlCutoff]. Ideal would be to truncate
+/// based on size of text.
 class CondensedText extends StatefulWidget {
   final String text;
   final int charCutoff;
@@ -21,8 +23,11 @@ class CondensedText extends StatefulWidget {
 }
 
 /// State for CondensedText
+///
+/// It is only tappable if text is long enough([condensable])
+/// and will hold the condensed text in [conString]
 class _CondensedTextState extends State<CondensedText> {
-  bool condensable = false;
+  late final bool condensable;
   late bool condensed = true;
   late String conString = "";
 
@@ -41,6 +46,8 @@ class _CondensedTextState extends State<CondensedText> {
       conString = '${widget.text.substring(0, index)}…';
       condensable = true;
       condensed = true;
+    } else {
+      condensable = false;
     }
   }
 
@@ -71,6 +78,7 @@ class _CondensedTextState extends State<CondensedText> {
 /// Creates widget with User image and name
 ///
 /// Put's image left, then user's name then @username
+/// the [child] goes below
 class UserFrameWidget extends StatelessWidget {
   final User? user;
   final TextStyle nameStyle;
@@ -124,6 +132,8 @@ class UserFrameWidget extends StatelessWidget {
   }
 }
 
+/// This is present elsewhere (in profile I think)
+/// but it is useful. It just puts a profile pic widget
 Widget buildImage(String imagePath, double width, double height,
     {Widget? child}) {
   final image = imagePath.contains('https://')

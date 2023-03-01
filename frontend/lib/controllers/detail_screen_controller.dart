@@ -21,11 +21,15 @@ class DetailScreenController {
     return _topic;
   }
 
+  /// use [index] to find comment to load
   Future<Comment> getComment(int index) async {
     await Future.delayed(Duration(milliseconds: Random().nextInt(200)));
     return Mock.comments[index % Mock.comments.length];
   }
 
+  /// I don't know if this is nessecary, but for right now this works
+  /// If we have a varying amount of comments this might be different
+  /// Works well with Listview.builder
   int getAmountOfComments() {
     return 100;
   }
@@ -33,13 +37,15 @@ class DetailScreenController {
 
 class CommentController {
   bool _loaded = false;
-  late final Comment _comment;
+  late final Comment
+      _comment; // caches comment, Evan was discussing whether we should instead load in 10 comments instead (Future<List<Comment>>)
   final Future<Comment> _future;
 
   CommentController(Future<Comment> comment) : _future = comment {
     _future.then(__load);
   }
 
+  /// private helper function, is the callback for the future.
   void __load(Comment value) {
     _comment = value;
     _loaded = true;
@@ -49,10 +55,15 @@ class CommentController {
     return _comment;
   }
 
+  /// Return whether controller got comment from future
+  ///
+  /// Does not load if failure occured, we can add that
+  /// if you would like.
   bool isLoaded() {
     return _loaded;
   }
 
+  /// Will call [fn] when future is done loading or if future is already loaded
   void onLoad(Function(CommentController) fn) {
     if (isLoaded()) {
       fn(this);
@@ -62,6 +73,7 @@ class CommentController {
   }
 }
 
+/// Contains list of mock comments
 class Mock {
   static List<Comment> comments = [
     Comment(
