@@ -2,15 +2,23 @@ import 'dart:math';
 
 import '../model/comment.dart';
 import '../model/rating.dart';
+import '../model/topic.dart';
 import '../model/user.dart';
 
 class DetailScreenController {
-  final Rating rating;
+  final Rating _rating;
+  final Topic _topic;
 
-  DetailScreenController(this.rating);
+  const DetailScreenController(rating, topic)
+      : _rating = rating,
+        _topic = topic;
 
   Rating getRating() {
-    return rating;
+    return _rating;
+  }
+
+  Topic getTopic() {
+    return _topic;
   }
 
   Future<Comment> getComment(int index) async {
