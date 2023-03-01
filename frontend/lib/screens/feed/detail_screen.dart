@@ -65,7 +65,9 @@ class _CommentPanelState extends State<CommentPanel> {
   void initState() {
     super.initState();
     if (!widget.controller.isLoaded()) {
-      widget.controller.onLoad((controller) => setState(() {}));
+      widget.controller.onLoad((controller) {
+        if (mounted) setState(() {});
+      });
     }
   }
 

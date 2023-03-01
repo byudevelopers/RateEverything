@@ -32,13 +32,13 @@ class _CondensedTextState extends State<CondensedText> {
 
     Iterable<Match> nlMatches = '\n'.allMatches(widget.text);
 
-    if (widget.nlCutoff < nlMatches.length + 1) {
-      int index = nlMatches.elementAt(widget.nlCutoff).start - 1;
-      conString = '${widget.text.substring(0, index)}…';
+    if (widget.text.length > widget.charCutoff) {
+      conString = '${widget.text.substring(0, widget.charCutoff)}…';
       condensable = true;
       condensed = true;
-    } else if (widget.text.length > widget.charCutoff) {
-      conString = '${widget.text.substring(0, widget.charCutoff)}…';
+    } else if (widget.nlCutoff < nlMatches.length + 1) {
+      int index = nlMatches.elementAt(widget.nlCutoff - 1).start - 1;
+      conString = '${widget.text.substring(0, index)}…';
       condensable = true;
       condensed = true;
     }

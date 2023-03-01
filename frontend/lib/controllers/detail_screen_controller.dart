@@ -23,7 +23,7 @@ class DetailScreenController {
 
   Future<Comment> getComment(int index) async {
     await Future.delayed(Duration(milliseconds: Random().nextInt(100)));
-    return Mock.comments[index];
+    return Mock.comments[index % Mock.comments.length];
   }
 
   int getAmountOfComments() {
@@ -33,7 +33,7 @@ class DetailScreenController {
 
 class CommentController {
   bool _loaded = false;
-  late final Comment comment;
+  late final Comment _comment;
   final Future<Comment> _future;
 
   CommentController(Future<Comment> comment) : _future = comment {
@@ -41,12 +41,12 @@ class CommentController {
   }
 
   void __load(Comment value) {
-    comment = value;
+    _comment = value;
     _loaded = true;
   }
 
   Comment getComment() {
-    return comment;
+    return _comment;
   }
 
   bool isLoaded() {
