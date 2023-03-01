@@ -22,7 +22,7 @@ class DetailScreenController {
   }
 
   Future<Comment> getComment(int index) async {
-    await Future.delayed(Duration(milliseconds: Random().nextInt(100)));
+    await Future.delayed(Duration(milliseconds: Random().nextInt(200)));
     return Mock.comments[index % Mock.comments.length];
   }
 

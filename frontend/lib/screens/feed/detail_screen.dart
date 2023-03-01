@@ -83,49 +83,13 @@ class _CommentPanelState extends State<CommentPanel> {
           user: widget.controller.getComment().user,
           child: CondensedText(text: widget.controller.getComment().comment));
     } else {
-      return const Card(
-          child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 32),
-        child: Center(
-          child: Text(
-            "···",
-            style: TextStyle(fontSize: 40, letterSpacing: 20),
-          ),
-        ),
-      ));
+      return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 28),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: Colors.pink,
+            ),
+          ));
     }
   }
 }
-/*
-class DetailScreen extends StatelessWidget {
-  final Rating rating;
-  final ICommentFetcher fetcher = TestCommentFetcher();
-
-  DetailScreen({Key? key, required this.rating}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Detail Screen"),
-      ),
-      body: Column(children: [
-        Text(rating.username),
-        Text(rating.comment),
-        Expanded(
-          child: ListView.builder(
-              itemCount: 12 * fetcher.total,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(children: [
-                  CommentPanel(
-                      index: index % fetcher.total,
-                      comment: fetcher.requestComment(index % fetcher.total)),
-                  const SizedBox(height: 20)
-                ]);
-              }),
-        )
-      ]),
-    );
-  }
-}
-*/
