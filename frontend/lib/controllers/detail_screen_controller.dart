@@ -22,6 +22,10 @@ class DetailScreenController {
   }
 
   /// use [index] to find comment to load
+  ///
+  /// I propose this to be the simplest abstraction for the user
+  /// of this class. How it stores and keep track of comments shouldn't matter
+  /// to the user.
   Future<Comment> getComment(int index) async {
     await Future.delayed(Duration(milliseconds: Random().nextInt(200)));
     return Mock.comments[index % Mock.comments.length];
@@ -41,6 +45,7 @@ class CommentController {
       _comment; // caches comment, Evan was discussing whether we should instead load in 10 comments instead (Future<List<Comment>>)
   final Future<Comment> _future;
 
+  /// Requires future of comment, future may have already completed
   CommentController(Future<Comment> comment) : _future = comment {
     _future.then(__load);
   }

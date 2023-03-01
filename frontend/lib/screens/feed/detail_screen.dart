@@ -27,6 +27,9 @@ class DetailScreen extends StatelessWidget {
                 rating: controller.getRating(),
               )),
           Text(controller.getRating().comment),
+
+          /// Uses a listview to dynamically create comments based on index
+          /// i.e. first comment, second comment, ... last comment
           Expanded(
               child: ListView.builder(
                   itemCount: controller.getAmountOfComments(),
@@ -79,10 +82,12 @@ class _CommentPanelState extends State<CommentPanel> {
   @override
   Widget build(BuildContext context) {
     if (widget.controller.isLoaded()) {
+      // LOADED
       return UserFrameWidget(
           user: widget.controller.getComment().user,
           child: CondensedText(text: widget.controller.getComment().comment));
     } else {
+      // NOT LOADED
       return const Padding(
           padding: EdgeInsets.symmetric(vertical: 28),
           child: Center(
