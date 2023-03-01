@@ -1,3 +1,4 @@
+import 'package:app22_23/controllers/tab_view_controller.dart';
 import 'package:app22_23/screens/leaderboard/leaderboard.dart';
 import 'package:app22_23/screens/profile/profile.dart';
 import 'package:app22_23/screens/feed/main_feed.dart';
@@ -14,12 +15,15 @@ class TabView extends StatefulWidget {
 }
 
 class _TabViewState extends State<TabView> {
+  // we should delete this because main feed should load the ratings, not tab view
   final List<Rating> _ratingList = [
-    Rating(8, "BobSanders53", "I really like it."),
-    Rating(-4, "BigShrek_420", "It wasn't very good."),
-    Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
+    Rating(1, 8, "BobSanders53", "I really like it."),
+    Rating(2, -4, "BigShrek_420", "It wasn't very good."),
+    Rating(3, 10, "KanYe West", "Woop d scoop whoopidy whoop."),
   ];
- late final Topic _topic = Topic("SampleID", "What is your favorite color?", 10);
+
+  TabViewController _controller = TabViewController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +56,7 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: MainFeed(topic: _topic, ratings: _ratingList),
+              child: MainFeed(topic: _controller.getTodaysTopic(), ratings: _ratingList),
             ),
             Container(
               child: Leaderboard(),
