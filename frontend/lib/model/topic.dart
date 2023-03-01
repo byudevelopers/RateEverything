@@ -1,13 +1,10 @@
-import 'package:app22_23/model/feed.dart';
-
 class Topic {
+  late String id;
   late String question;
   late double averageRating;
-  late Feed feed;
 
-  Topic(this.question, this.averageRating, this.feed) {
+  Topic(this.id, this.question, this.averageRating) {
     question = question;
     averageRating = averageRating;
-    feed = feed;
   }
 }

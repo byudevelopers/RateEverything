@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app22_23/model/topic.dart';
 import 'package:app22_23/model/rating.dart';
-import 'package:app22_23/model/feed.dart';
 import 'package:app22_23/screens/feed/main_feed.dart';
 
 class PodiumList extends StatefulWidget {
@@ -13,18 +12,23 @@ class PodiumList extends StatefulWidget {
 
 class _PodiumListState extends State<PodiumList> {
   final List<Topic> _topicList = [
-    Topic("Taylor Swift", 9.7, Feed([
+    Topic("SampleID", "Taylor Swift", 9.7),
+    Topic("SampleID", "Cats", 8.6),
+    Topic("SampleID", "Pineapple on Pizza", 7.9),
+  ];
+  final List<List<Rating>> _ratingLists = [
+    [
       Rating(9, "thisGuy", "She is the best"),
       Rating(10, "iAmCool", "She is the very best"),
-    ])),
-    Topic("Cats", 8.6, Feed([
+    ],
+    [
       Rating(9, "thisGuy", "Cats are my favorite"),
       Rating(8, "iAmCool", "Cats are the very best"),
-    ])),
-    Topic("Pineapple on Pizza", 7.9, Feed([
+    ],
+    [
       Rating(8, "thisGuy", "Pineapple on pizza is the best"),
       Rating(8, "iAmCool", "Pineapple on pizza is cool"),
-    ])),
+    ],
   ];
   @override
   Widget build(BuildContext context) {
@@ -58,14 +62,11 @@ class _PodiumListState extends State<PodiumList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => 
-                      Scaffold(
-                        appBar: AppBar(
-                          title: const Text("Feed Screen"),
-                        ),
-                        body: MainFeed(topic: _topicList[position])
-                      )
-                  ));
+                      builder: (context) => Scaffold(
+                          appBar: AppBar(
+                            title: const Text("Feed Screen"),
+                          ),
+                          body: MainFeed(topic: _topicList[position], ratings: _ratingLists[position]))));
             });
       },
     );

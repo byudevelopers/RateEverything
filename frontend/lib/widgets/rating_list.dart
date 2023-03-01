@@ -3,7 +3,6 @@ import 'package:app22_23/widgets/rating_box.dart';
 import 'package:flutter/material.dart';
 import 'package:app22_23/model/topic.dart';
 import 'package:app22_23/model/rating.dart';
-import 'package:app22_23/model/feed.dart';
 import 'package:app22_23/screens/feed/main_feed.dart';
 
 class RatingList extends StatefulWidget {
