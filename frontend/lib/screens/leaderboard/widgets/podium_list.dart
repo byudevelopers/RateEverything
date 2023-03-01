@@ -15,16 +15,16 @@ class _PodiumListState extends State<PodiumList> {
   // we should delete this because main feed should load the ratings, not tab view
   final List<List<Rating>> _ratingLists = [
     [
-      Rating(9, "thisGuy", "She is the best"),
-      Rating(10, "iAmCool", "She is the very best"),
+      Rating(9, 9, "thisGuy", "She is the best"),
+      Rating(10, 10, "iAmCool", "She is the very best"),
     ],
     [
-      Rating(9, "thisGuy", "Cats are my favorite"),
-      Rating(8, "iAmCool", "Cats are the very best"),
+      Rating(9, 9, "thisGuy", "Cats are my favorite"),
+      Rating(8, 8, "iAmCool", "Cats are the very best"),
     ],
     [
-      Rating(8, "thisGuy", "Pineapple on pizza is the best"),
-      Rating(8, "iAmCool", "Pineapple on pizza is cool"),
+      Rating(8, 8, "thisGuy", "Pineapple on pizza is the best"),
+      Rating(8, 8, "iAmCool", "Pineapple on pizza is cool"),
     ],
   ];
 

@@ -17,13 +17,13 @@ class TabView extends StatefulWidget {
 class _TabViewState extends State<TabView> {
   // we should delete this because main feed should load the ratings, not tab view
   final List<Rating> _ratingList = [
-    Rating(8, "BobSanders53", "I really like it."),
-    Rating(-4, "BigShrek_420", "It wasn't very good."),
-    Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
+    Rating(1, 8, "BobSanders53", "I really like it."),
+    Rating(2, -4, "BigShrek_420", "It wasn't very good."),
+    Rating(3, 10, "KanYe West", "Woop d scoop whoopidy whoop."),
   ];
 
   TabViewController _controller = TabViewController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
