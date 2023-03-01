@@ -18,11 +18,10 @@ class DetailScreen extends StatelessWidget {
       body: Center(
         child: Column(children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: RatingBox(
-              rating: rating,
-            )
-          ),
+              margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: RatingBox(
+                rating: rating,
+              )),
           Text(rating.comment),
         ]),
       ),
