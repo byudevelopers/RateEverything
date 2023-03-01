@@ -21,7 +21,9 @@ class _TabViewState extends State<TabView> {
     Rating(-4, "BigShrek_420", "It wasn't very good."),
     Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
   ];
+
   TabViewController _controller = TabViewController();
+  
   @override
   Widget build(BuildContext context) {
     return Container(

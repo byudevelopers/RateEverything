@@ -1,3 +1,4 @@
+import 'package:app22_23/controllers/podium_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:app22_23/model/topic.dart';
 import 'package:app22_23/model/rating.dart';
@@ -11,11 +12,7 @@ class PodiumList extends StatefulWidget {
 }
 
 class _PodiumListState extends State<PodiumList> {
-  final List<Topic> _topicList = [
-    Topic("SampleID", "Taylor Swift", 9.7),
-    Topic("SampleID", "Cats", 8.6),
-    Topic("SampleID", "Pineapple on Pizza", 7.9),
-  ];
+  // we should delete this because main feed should load the ratings, not tab view
   final List<List<Rating>> _ratingLists = [
     [
       Rating(9, "thisGuy", "She is the best"),
@@ -30,10 +27,15 @@ class _PodiumListState extends State<PodiumList> {
       Rating(8, "iAmCool", "Pineapple on pizza is cool"),
     ],
   ];
+
+  final PodiumListController _controller = PodiumListController();
+
   @override
   Widget build(BuildContext context) {
+    List<Topic> topicList = _controller.getTopicList();
+
     return ListView.builder(
-      itemCount: _topicList.length,
+      itemCount: topicList.length,
       itemBuilder: (context, position) {
         return GestureDetector(
             child: Card(
@@ -43,12 +45,12 @@ class _PodiumListState extends State<PodiumList> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          _topicList[position].question,
+                          topicList[position].question,
                         ),
                         Row(
                           children: [
                             Text(
-                              _topicList[position].averageRating.toString(),
+                              topicList[position].averageRating.toString(),
                             ),
                             const Icon(
                               Icons.chevron_right,
@@ -66,7 +68,9 @@ class _PodiumListState extends State<PodiumList> {
                           appBar: AppBar(
                             title: const Text("Feed Screen"),
                           ),
-                          body: MainFeed(topic: _topicList[position], ratings: _ratingLists[position]))));
+                          body: MainFeed(
+                              topic: topicList[position],
+                              ratings: _ratingLists[position]))));
             });
       },
     );
