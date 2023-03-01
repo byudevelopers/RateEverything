@@ -12,7 +12,15 @@ import 'package:app22_23/widgets/rating_list.dart';
 class MainFeed extends StatefulWidget {
   final Topic topic;
   final List<Rating> ratings;
+<<<<<<< Updated upstream
   const MainFeed({Key? key, required this.topic, required this.ratings}) : super(key: key);
+=======
+  final MainFeedController controller;
+
+  MainFeed({Key? key, required this.topic, required this.ratings})
+      : controller = MainFeedController(topic: topic),
+        super(key: key);
+>>>>>>> Stashed changes
 
   @override
   State<MainFeed> createState() => _MainFeedState();
