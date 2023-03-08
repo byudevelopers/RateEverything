@@ -38,7 +38,7 @@ class _CondensedTextState extends State<CondensedText> {
     Iterable<Match> nlMatches = '\n'.allMatches(widget.text);
 
     if (widget.text.length > widget.charCutoff) {
-      conString = '${widget.text.substring(0, widget.charCutoff)}…';
+      conString = '${widget.text.substring(0, widget.charCutoff)}\nmore';
       condensable = true;
       condensed = true;
     } else if (widget.nlCutoff < nlMatches.length + 1) {

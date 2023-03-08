@@ -26,7 +26,6 @@ class DetailScreen extends StatelessWidget {
               child: RatingBox(
                 rating: controller.getRating(),
               )),
-          Text(controller.getRating().comment),
 
           /// Uses a listview to dynamically create comments based on index
           /// i.e. first comment, second comment, ... last comment
