@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app22_23/model/rating.dart';
 import 'package:app22_23/model/topic.dart';
 import 'package:app22_23/widgets/rating_box.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,13 @@ import 'package:app22_23/widgets/rating_list.dart';
 
 class MainFeed extends StatefulWidget {
   final Topic topic;
-  const MainFeed({Key? key, required this.topic}) : super(key: key);
+  final List<Rating> ratings;
+
+  final MainFeedController controller;
+
+  MainFeed({Key? key, required this.topic, required this.ratings})
+      : controller = MainFeedController(topic: topic),
+        super(key: key);
 
   @override
   State<MainFeed> createState() => _MainFeedState();
@@ -54,7 +61,7 @@ class _MainFeedState extends State<MainFeed> {
                       ),
                     )),
           Expanded(
-            child: RatingList(topic: widget.topic),
+            child: RatingList(controller: widget.controller),
           ),
         ],
       ),

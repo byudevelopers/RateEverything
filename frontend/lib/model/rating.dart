@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Rating {
-  late int value;
-  late String username;
-  late Icon icon;
-  late String comment;
+  final int id;
+  final String username;
+  final int value;
+  final Icon icon;
+  final String comment;
 
-  Rating(this.value, this.username, this.comment) {
-    icon = const Icon(Icons.edit_note);
-  }
+  Rating(this.id, this.value, this.username, this.comment):
+        icon = const Icon(Icons.edit_note);
 }

@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "firebase-functions": "^4.0.1"
+  },
+  "scripts": {
+    "start": "cd functions && npm run start && cd .."
+  }
+}

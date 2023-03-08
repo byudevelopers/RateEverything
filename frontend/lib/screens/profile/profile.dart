@@ -3,6 +3,7 @@ import 'package:app22_23/screens/profile/profile_settings_view.dart';
 import 'package:app22_23/utils/user_preferences.dart';
 import 'package:flutter/material.dart';
 import '../../model/user.dart';
+import 'package:http/http.dart' as http;
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);

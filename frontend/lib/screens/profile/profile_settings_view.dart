@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import '../../model/user.dart';
 import '../../utils/user_preferences.dart';
+import 'package:http/http.dart' as http;
 
 // Settings for the profile
 class ProfileSettingsView extends StatefulWidget {
@@ -25,8 +26,11 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
   @override
   void initState() {
     super.initState();
+    user = fetchData();
+  }
 
-    user = UserPreferences.getUser();
+  fetchData() async {
+    return await UserPreferences.fetchUser();
   }
 
   @override
@@ -58,6 +62,17 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
                       },
                     ),
                     const SizedBox(height: 24),
+                    FutureBuilder(
+                      future: fetchData(),
+                      builder: ((context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data.toString());
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return const Text("Loading");
+                      }),
+                    ),
                     TextFieldWidget(
                         label: 'Full Name',
                         text: user.name,

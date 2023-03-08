@@ -1,10 +1,10 @@
+import 'package:app22_23/controllers/tab_view_controller.dart';
 import 'package:app22_23/screens/leaderboard/leaderboard.dart';
 import 'package:app22_23/screens/profile/profile.dart';
 import 'package:app22_23/screens/feed/main_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
 import 'package:app22_23/model/rating.dart';
-import 'package:app22_23/model/feed.dart';
 import 'package:app22_23/model/topic.dart';
 
 class TabView extends StatefulWidget {
@@ -15,12 +15,15 @@ class TabView extends StatefulWidget {
 }
 
 class _TabViewState extends State<TabView> {
-  final Feed _feed = Feed([
-    Rating(8, "BobSanders53", "I really like it."),
-    Rating(-4, "BigShrek_420", "It wasn't very good."),
-    Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
-  ]);
- late final Topic _topic = Topic("What is your favorite color?", 10, _feed);
+  // we should delete this because main feed should load the ratings, not tab view
+  final List<Rating> _ratingList = [
+    Rating(1, 8, "BobSanders53", "I really like it."),
+    Rating(2, -4, "BigShrek_420", "It wasn't very good."),
+    Rating(3, 10, "KanYe West", "Woop d scoop whoopidy whoop."),
+  ];
+
+  TabViewController _controller = TabViewController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +56,7 @@ class _TabViewState extends State<TabView> {
               // width: double.infinity,
               // height: double.infinity,
               // color: Colors.amber,
-              child: MainFeed(topic: _topic),
+              child: MainFeed(topic: _controller.getTodaysTopic(), ratings: _ratingList),
             ),
             Container(
               child: Leaderboard(),

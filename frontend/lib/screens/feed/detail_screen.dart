@@ -1,30 +1,99 @@
+import 'package:app22_23/controllers/detail_screen_controller.dart';
 import 'package:app22_23/model/rating.dart';
+import 'package:app22_23/model/topic.dart';
 import 'package:app22_23/widgets/rating_box.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/comment.dart';
+import 'util_widget.dart';
+
 class DetailScreen extends StatelessWidget {
-  final Rating rating;
-  final String prompt;
-  const DetailScreen({Key? key, required this.rating, required this.prompt})
-      : super(key: key);
+  final DetailScreenController controller;
+  DetailScreen({Key? key, required rating, required topic})
+      : controller = DetailScreenController(rating, topic),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(prompt),
+        title: Text(controller.getTopic().question),
       ),
       body: Center(
         child: Column(children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: RatingBox(
-              rating: rating,
-            )
-          ),
-          Text(rating.comment),
+              margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: RatingBox(
+                rating: controller.getRating(),
+              )),
+
+          /// Uses a listview to dynamically create comments based on index
+          /// i.e. first comment, second comment, ... last comment
+          Expanded(
+              child: ListView.builder(
+                  itemCount: controller.getAmountOfComments(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(children: [
+                      CommentPanel(
+                          index: index, comment: controller.getComment(index)),
+                      const SizedBox(height: 20)
+                    ]);
+                  })),
         ]),
       ),
     );
+  }
+}
+
+/// Returns a Userframe with a condensedText widget in it
+///
+/// Accepts [comment] as a Future Comment along with its
+/// [index].
+class CommentPanel extends StatefulWidget {
+  final int index;
+  final CommentController controller;
+  CommentPanel(
+      {Key? key, required this.index, required Future<Comment> comment})
+      : controller = CommentController(comment),
+        super(key: key);
+
+  @override
+  State<CommentPanel> createState() => _CommentPanelState();
+}
+
+/// checks if loaded, returns comment widget
+class _CommentPanelState extends State<CommentPanel> {
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.controller.isLoaded()) {
+      widget.controller.onLoad((controller) {
+        if (mounted) setState(() {});
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.controller.isLoaded()) {
+      // LOADED
+      return UserFrameWidget(
+          user: widget.controller.getComment().user,
+          child: CondensedText(text: widget.controller.getComment().comment));
+    } else {
+      // NOT LOADED
+      return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 28),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: Colors.pink,
+            ),
+          ));
+    }
   }
 }

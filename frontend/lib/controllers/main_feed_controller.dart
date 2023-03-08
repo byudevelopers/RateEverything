@@ -1,24 +1,37 @@
 import 'package:app22_23/model/topic.dart';
 import 'package:app22_23/model/rating.dart';
-import 'package:app22_23/model/feed.dart';
 
 class MainFeedController {
   final bool _loading;
+  final Topic topic;
 
-  MainFeedController() : _loading = false {}
+  MainFeedController({required this.topic}) : _loading = false;
 
-  Future<Topic> getTopic() async {
-    final Feed feed = Feed([
-      Rating(8, "BobSanders53", "I really like it."),
-      Rating(-4, "BigShrek_420", "It wasn't very good."),
-      Rating(10, "KanYe West", "Woop d scoop whoopidy whoop."),
-    ]);
-    late final Topic topic = Topic("What is your favorite color?", 10, feed);
-
+  Topic getTopic() {
     return topic;
+  }
+
+  Rating getRating(int index) {
+    return Mock.RATINGS[index % Mock.RATINGS.length];
+  }
+
+  int getAmountOfRatings() {
+    return 20;
   }
 
   bool isLoading() {
     return _loading;
   }
+}
+
+class Mock {
+  static List<Rating> RATINGS = [
+    Rating(1, 8, "bob", "BOBOBOBOBOBOB"),
+    Rating(2, -2, "Jim", "Why did nasa do 7/11"),
+    Rating(3, 6, "Evan", "I am a in love with my personal suffering"),
+    Rating(1, 5, "Kimn", "[Illegible muttering]"),
+    Rating(1, 10, "why", "why"),
+    Rating(1, -7, "Ab lincholn",
+        "abfcsdbaf as dsjbsa   asdlkfbkjasdfd ljkbzsdj sfdlkbjsadjkblsda dfs daskfsdalkhsadfbdsfabsdfabkbsadhjfsda")
+  ];
 }
