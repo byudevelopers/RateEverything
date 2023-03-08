@@ -2,3 +2,4 @@ flutter/*
 app22_23/*
 .env
 .vscode/*
+backend/personal_emulator_data/*
