@@ -19,7 +19,6 @@ class MainFeed extends StatefulWidget {
       : controller = MainFeedController(topic: topic),
         super(key: key);
 
-
   @override
   State<MainFeed> createState() => _MainFeedState();
 }

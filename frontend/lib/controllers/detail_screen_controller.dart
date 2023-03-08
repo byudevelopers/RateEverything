@@ -2,22 +2,38 @@ import 'dart:math';
 
 import '../model/comment.dart';
 import '../model/rating.dart';
+import '../model/topic.dart';
 import '../model/user.dart';
 
 class DetailScreenController {
-  final Rating rating;
+  final Rating _rating;
+  final Topic _topic;
 
-  DetailScreenController(this.rating);
+  const DetailScreenController(rating, topic)
+      : _rating = rating,
+        _topic = topic;
 
   Rating getRating() {
-    return rating;
+    return _rating;
   }
 
+  Topic getTopic() {
+    return _topic;
+  }
+
+  /// use [index] to find comment to load
+  ///
+  /// I propose this to be the simplest abstraction for the user
+  /// of this class. How it stores and keep track of comments shouldn't matter
+  /// to the user.
   Future<Comment> getComment(int index) async {
-    await Future.delayed(Duration(milliseconds: Random().nextInt(100)));
-    return Mock.comments[index];
+    await Future.delayed(Duration(milliseconds: Random().nextInt(200)));
+    return Mock.comments[index % Mock.comments.length];
   }
 
+  /// I don't know if this is nessecary, but for right now this works
+  /// If we have a varying amount of comments this might be different
+  /// Works well with Listview.builder
   int getAmountOfComments() {
     return 100;
   }
@@ -25,26 +41,34 @@ class DetailScreenController {
 
 class CommentController {
   bool _loaded = false;
-  late final Comment comment;
+  late final Comment
+      _comment; // caches comment, Evan was discussing whether we should instead load in 10 comments instead (Future<List<Comment>>)
   final Future<Comment> _future;
 
+  /// Requires future of comment, future may have already completed
   CommentController(Future<Comment> comment) : _future = comment {
     _future.then(__load);
   }
 
+  /// private helper function, is the callback for the future.
   void __load(Comment value) {
-    comment = value;
+    _comment = value;
     _loaded = true;
   }
 
   Comment getComment() {
-    return comment;
+    return _comment;
   }
 
+  /// Return whether controller got comment from future
+  ///
+  /// Does not load if failure occured, we can add that
+  /// if you would like.
   bool isLoaded() {
     return _loaded;
   }
 
+  /// Will call [fn] when future is done loading or if future is already loaded
   void onLoad(Function(CommentController) fn) {
     if (isLoaded()) {
       fn(this);
@@ -54,6 +78,7 @@ class CommentController {
   }
 }
 
+/// Contains list of mock comments
 class Mock {
   static List<Comment> comments = [
     Comment(
