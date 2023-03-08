@@ -1,3 +1,4 @@
+import 'package:app22_23/screens/login/create_account.dart';
 import 'package:app22_23/themes.dart';
 import 'package:app22_23/utils/user_preferences.dart';
 import 'package:app22_23/screens/tab_view.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: title,
           theme: myTheme,
-          home: TabView(),
+          home: CreateAccount(),
         );
       },
     );
