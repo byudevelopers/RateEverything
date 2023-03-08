@@ -39,3 +39,13 @@ If you are a PC user you will not be able to install Xcode and build in IOS with
 
 There are a lot of free resources for working with Flutter/Dart. [Pub.dev](https://pub.dev) has flutter widgets that can be used.
 
+
+## Troubleshooting
+
+One common issue when installing Flutter and running the app for the first time is with installing Cocoapods. If you encounter an error when trying to install Cocoapods with `sudo gem install cocoapods`, run the following commands:
+
+1) `sudo gem install activesupport -v 7.0.4.2`
+2) `sudo gem install cocoapods`
+
+If those steps don't work, you are doomed.
+
