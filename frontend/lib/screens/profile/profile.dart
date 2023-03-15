@@ -13,32 +13,51 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool isLoaded = false;
+  late User user;
+
+  @override
+  void initState() {
+    UserPreferences.fetchUserID("3pW6VlYEvR6CfFdRcztp").then((value) => {
+          if (mounted)
+            {
+              setState(() {
+                isLoaded = true;
+                user = value;
+              })
+            }
+        });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.getUser();
-
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ProfileWidget(
-              imagePath: user.imagePath,
-              onClicked: () async {
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => ProfileSettingsView()),
-                );
-                setState(() {});
-              },
-            ),
-            buildName(user),
-            const SizedBox(height: 34),
-            buildAbout(user),
-          ],
+    if (isLoaded) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ProfileWidget(
+                imagePath: user.imagePath,
+                onClicked: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileSettingsView()),
+                  );
+                  setState(() {});
+                },
+              ),
+              buildName(user),
+              const SizedBox(height: 34),
+              buildAbout(user),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return const CircularProgressIndicator();
+    }
   }
 
   Widget buildName(User user) => Column(

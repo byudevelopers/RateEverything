@@ -36,7 +36,22 @@ class UserPreferences {
 
   static Future<User> fetchUser() async {
     final response = await http.get(Uri.parse(
-        'http://localhost:5001/rateeverything/us-central1/getUser?userId=PB2Qasb5mP7AVrbOZvq5'));
+        'http://10.0.2.2:5001/rateeverything/us-central1/getUser?userId=x9vTtcxsR4dj7tRN8l99'));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load');
+    }
+  }
+
+  static Future<User> fetchUserID(String id) async {
+    final response = await http.get(Uri.parse(
+        'http://10.0.2.2:5001/rateeverything/us-central1/getUser?userId=$id'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
