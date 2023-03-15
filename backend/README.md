@@ -32,9 +32,9 @@ If you want to both start the emulator with previously saved data and save the d
 
 Please note that if this is your first time running this command and you haven't created the `personal_emulator_data` directory yet, then this command won't work. You will need to run `firebase emulators:start --export-on-exit personal_emulator_data` first, then you can run the command above.
 
-### Example Data
-I have provided some example data in the `example_data` folder. You can import this data by running the following command:
+### Sample Data
+I have provided some sample data in the `sample_data` folder. This data will be automatically imported when running `npm run start`. You can also import this data by running the following command:
 
-> `firebase emulators:start --import example_data --export-on-exit personal_emulator_data`
+> `firebase emulators:start --import sample_data --export-on-exit personal_emulator_data`
 
-This will get you started. After this, use the `personal_emulator_data` folder to save your data and don't save anything to the `example_data` folder.
+This will get you started. Use the `personal_emulator_data` folder to save your data and don't save anything to the `sample_data` folder.
