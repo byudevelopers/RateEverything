@@ -4,7 +4,7 @@ import 'package:app22_23/model/rating.dart';
 import 'package:app22_23/model/topic.dart';
 import 'package:app22_23/widgets/rating_box.dart';
 import 'package:flutter/material.dart';
-import 'package:app22_23/screens/feed/detail_screen.dart';
+import 'detail_screen/detail_screen.dart';
 import 'package:app22_23/controllers/main_feed_controller.dart';
 
 import 'package:app22_23/widgets/rating_list.dart';
